@@ -112,12 +112,12 @@ def export_stats(character_sheet="my_character_sheet.txt"):
         
     with open(character_sheet, 'w') as f:
         f.write("\n===== Your Final Stats =====\n")
-        f.write(f"STR: {strength_score}\n")
-        f.write(f"DEX: {dexterity_score}\n")
-        f.write(f"CON: {constitution_score}\n")
-        f.write(f"INT: {intelligence_score}\n")
-        f.write(f"WIS: {wisdom_score}\n")
-        f.write(f"CHA: {charisma_score}\n")
+        f.write(f"STR: {strength_score} {get_stat_mod(strength_score)}\n")
+        f.write(f"DEX: {dexterity_score} {get_stat_mod(dexterity_score)}\n")
+        f.write(f"CON: {constitution_score} {get_stat_mod(constitution_score)}\n")
+        f.write(f"INT: {intelligence_score} {get_stat_mod(intelligence_score)}\n")
+        f.write(f"WIS: {wisdom_score} {get_stat_mod(wisdom_score)}\n")
+        f.write(f"CHA: {charisma_score} {get_stat_mod(charisma_score)}\n")
         
     print("\n Stats exported to my_character_sheet.txt")
 
@@ -135,12 +135,12 @@ def print_stats():
         return
      
     print("\n===== Your Final Stats =====")
-    print(f"STR: {strength_score}")
-    print(f"DEX: {dexterity_score}")
-    print(f"CON: {constitution_score}")
-    print(f"INT: {intelligence_score}")
-    print(f"WIS: {wisdom_score}")
-    print(f"CHA: {charisma_score}")
+    print(f"STR: {strength_score} {get_stat_mod(strength_score)}")
+    print(f"DEX: {dexterity_score} {get_stat_mod(dexterity_score)}")
+    print(f"CON: {constitution_score} {get_stat_mod(constitution_score)}")
+    print(f"INT: {intelligence_score} {get_stat_mod(intelligence_score)}")
+    print(f"WIS: {wisdom_score} {get_stat_mod(wisdom_score)}")
+    print(f"CHA: {charisma_score} {get_stat_mod(charisma_score)}")
 
 def calculate_strength(bench_pr=None, pushups=None, long_jump=None):
     global strength_score
@@ -157,7 +157,7 @@ def calculate_strength(bench_pr=None, pushups=None, long_jump=None):
 
     strength_score = round(((bench_pr / 15) + (pushups / 3) + (long_jump * 1.5)) / 2.5)
     strength_score = max(1, min(20, strength_score))
-    print(f"Your Strength Score is: {strength_score}")
+    print(f"Your Strength Score is: {strength_score} {get_stat_mod(strength_score)}")
 
 def calculate_dexterity(balance=None, mile=None, burpee=None):
     global dexterity_score
@@ -171,7 +171,7 @@ def calculate_dexterity(balance=None, mile=None, burpee=None):
     dexterity_score = round((balance / 5) + (12 - mile) + (burpee / 5))
     dexterity_score = max(1, min(20, dexterity_score))
 
-    print(f"Your Dexterity Score is: {dexterity_score}")
+    print(f"Your Dexterity Score is: {dexterity_score} {get_stat_mod(dexterity_score)}")
 
 def calculate_constitution(plank=None, breath=None, squats=None):
     global constitution_score
@@ -188,7 +188,7 @@ def calculate_constitution(plank=None, breath=None, squats=None):
 
     constitution_score = round(((plank / 6) + (10 + breath / 30) + (squats / 4)) / 3)
     constitution_score = max(1, min(20, constitution_score))
-    print(f"Your Constitution Score is: {constitution_score}")
+    print(f"Your Constitution Score is: {constitution_score} {get_stat_mod(constitution_score)}")
 
 def calculate_intelligence(edu=None, gpa=None):
     global intelligence_score
@@ -222,7 +222,7 @@ def calculate_intelligence(edu=None, gpa=None):
     base = {1: 8, 2: 10, 3: 12, 4: 14, 5: 16}[edu]
     modifier = 2 if gpa >= 4 else 1 if gpa >= 3.5 else 0 if gpa >= 2.5 else -1 if gpa >= 2.0 else -2
     intelligence_score = max(1, min(20, base + modifier))
-    print(f"Your Intelligence Score is: {intelligence_score}")
+    print(f"Your Intelligence Score is: {intelligence_score} {get_stat_mod(intelligence_score)}")
 
 def calculate_wisdom(sleep=None, heart=None, outside=None):
     global wisdom_score
@@ -235,7 +235,7 @@ def calculate_wisdom(sleep=None, heart=None, outside=None):
 
     wisdom_score = round((sleep / 15) + ((AVERAGE_HEART_RATE - heart) / 5) + (outside / 45))
     wisdom_score = max(1, min(20, wisdom_score))
-    print(f"Your Wisdom Score is: {wisdom_score}")
+    print(f"Your Wisdom Score is: {wisdom_score} {get_stat_mod(wisdom_score)}" )
 
 def calculate_charisma(outings=None, interactions=None, dates=None):
     global charisma_score
@@ -248,10 +248,8 @@ def calculate_charisma(outings=None, interactions=None, dates=None):
 
     charisma_score = round((outings * 1.5) + (interactions / 2) + (dates * 3))
     charisma_score = max(1, min(20, charisma_score))
-    print(f"Your Charisma Score is: {charisma_score}")
+    print(f"Your Charisma Score is: {charisma_score} {get_stat_mod(charisma_score)}")
 
-
-# Helper functions
 
 def get_valid_number(prompt):
     while True:
@@ -281,6 +279,16 @@ def get_valid_mile_time(prompt):
         except ValueError:
             print("Invalid format. Please enter mile time as MM:SS.")
 
+def get_stat_mod(stat_score = 0):
+    if stat_score <= 0:
+        return "(-5)"
+    else:
+        modifier = (stat_score - 10) // 2
+        if modifier >= 0:
+            return f"(+{modifier})"
+        else:
+            return f"({modifier})"
+    
 if __name__ == "__main__":
     main()
 
