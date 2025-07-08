@@ -1,5 +1,5 @@
 import sys
-import test2
+#import test2 as test2
 
 AVERAGE_HEART_RATE = 80
 strength_score = None
@@ -16,7 +16,7 @@ def main():
         print("2. Check Stats")
         print("3. Change Stat")
         print("4. Export Stats")
-        print("5. Run Test")
+       # print("5. Run Test")
         print("6. Exit")
 
         MenuChoice = input("Enter the number of the option you would like: ")
@@ -87,8 +87,8 @@ def main():
             export_stats()
             
 
-        elif MenuChoice ==5:
-            test2.run_all_tests()
+        #elif MenuChoice ==5:
+         #   test2.run_all_tests()
             
         elif MenuChoice == 6:
             break
@@ -108,6 +108,7 @@ def export_stats(character_sheet="my_character_sheet.txt"):
     ):
         print("\nStats not calculated yet.")
         print("Please select option 1 from the main menu to calculate your stats first.")
+        main()
         return
         
     with open(character_sheet, 'w') as f:
@@ -132,6 +133,7 @@ def print_stats():
     ):
         print("\nStats not calculated yet.")
         print("Please select option 1 from the main menu to calculate your stats first.")
+        main()
         return
      
     print("\n===== Your Final Stats =====")
