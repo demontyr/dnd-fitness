@@ -49,6 +49,7 @@ def main():
         ):
             print("Stats not calculated yet.")
             print("Please select option 1 from the main menu to calculate your stats first.")
+            main()
             return
         print("\nSelect a stat to change:")
         print("1. Strength")
@@ -99,7 +100,7 @@ def export_stats(character_sheet="my_character_sheet.txt"):
         wisdom_score,
         charisma_score,
     ):
-        print("\n Stats not calculated yet.")
+        print("\nStats not calculated yet.")
         print("Please select option 1 from the main menu to calculate your stats first.")
         return
         
@@ -121,7 +122,7 @@ def print_stats():
     wisdom_score,
     charisma_score,
     ):
-        print("\n Stats not calculated yet.")
+        print("\nStats not calculated yet.")
         print("Please select option 1 from the main menu to calculate your stats first.")
         return
      
@@ -135,65 +136,42 @@ def print_stats():
 
 def calculate_strength():
     global strength_score
-    bench_pr = input("Enter your bench press PR (in pounds): ")
-    pushups = input("Enter your max push-ups in one set: ")
-    long_jump = input("Enter your standing long jump distance (in feet): ")
+    bench_pr = get_valid_number("Enter your bench press PR (in pounds): ")
+    pushups = get_valid_number("Enter your max push-ups in one set: ")
+    long_jump = get_valid_number("Enter your standing long jump distance (in feet): ")
 
-    if (bench_pr.replace('.', '', 1).isdigit() and
-        pushups.replace('.', '', 1).isdigit() and
-        long_jump.replace('.', '', 1).isdigit()):  
+    bench_pr = round(bench_pr)
+    pushups = round(pushups)
+    long_jump = round(long_jump)
 
-        bench_pr = round(float(bench_pr))
-        pushups = round(float(pushups))
-        long_jump = round(float(long_jump))
-
-        print(f"Inputs accepted: Bench PR = {bench_pr}, Pushups = {pushups}, Long Jump = {long_jump}")
-        strength_score = round(((bench_pr / 15) + (pushups / 3) + (long_jump * 1.5)) / 2.5)
-        strength_score = max(1, min(20, strength_score))
-        print(f"Your Strength Score is: {strength_score}")
-    else:
-        print("Please enter valid numbers.")
-        return
+    print(f"Inputs accepted: Bench PR = {bench_pr}, Pushups = {pushups}, Long Jump = {long_jump}")
+    strength_score = round(((bench_pr / 15) + (pushups / 3) + (long_jump * 1.5)) / 2.5)
+    strength_score = max(1, min(20, strength_score))
+    print(f"Your Strength Score is: {strength_score}")
 
 def calculate_dexterity():
     global dexterity_score
-    balance = input("Enter how long you can stand on one leg with your eyes closed (in seconds): ")
-    mile = input("Enter your mile time (MM:SS format): ")
-    burpee = input("Enter how many burpees you can do in one minute: ")
+    balance = get_valid_integer("Enter how long you can stand on one leg with your eyes closed (in seconds): ")
+    mile = get_valid_mile_time("Enter your mile time (MM:SS format): ")
+    burpee = get_valid_integer("Enter how many burpees you can do in one minute: ")
 
-    if balance.isdigit() and burpee.isdigit():
-        balance = round(float(balance))
-        burpee = round(float(burpee))
-    else:
-        print("Please enter valid numbers.")
-        return
-
-    try:
-        minutes, seconds = map(int, mile.split(":"))
-        mile = minutes + (seconds / 60)
-    except ValueError:
-        print("Invalid format. Use MM:SS.")
-        return
-
-    dexterity_score = round((balance / 5) + (12 - (mile)) + (burpee / 5))
+    dexterity_score = round((balance / 5) + (12 - mile) + (burpee / 5))
     dexterity_score = max(1, min(20, dexterity_score))
-    print(f"Inputs accepted: Balance = {balance}, Mile = {mile}, Burpees = {burpee}")
+
+    print(f"Inputs accepted: Balance = {balance}, Mile = {mile:.2f} minutes, Burpees = {burpee}")
     print(f"Your Dexterity Score is: {dexterity_score}")
 
 def calculate_constitution():
     global constitution_score
-    plank = input("Enter plank time (in seconds): ")
-    breath = input("Enter breath-hold time (in seconds): ")
-    squats = input("Enter air squats in a minute: ")
+    plank = get_valid_number("Enter plank time (in seconds): ")
+    breath = get_valid_number("Enter breath-hold time (in seconds): ")
+    squats = get_valid_number("Enter air squats in a minute: ")
 
-    try:
-        plank = round(float(plank))
-        breath = round(float(breath))
-        squats = round(float(squats))
-        print(f"Inputs accepted: Plank = {plank}, Breath = {breath}, Squats = {squats}")
-    except ValueError:
-        print("Please enter valid numbers.")
-        return
+    plank = round(plank)
+    breath = round(breath)
+    squats = round(squats)
+
+    print(f"Inputs accepted: Plank = {plank}, Breath = {breath}, Squats = {squats}")
 
     constitution_score = round(((plank / 6) + (10 + breath / 30) + (squats / 4)) / 3)
     constitution_score = max(1, min(20, constitution_score))
@@ -201,23 +179,30 @@ def calculate_constitution():
 
 def calculate_intelligence():
     global intelligence_score
-    print("Education Level:")
-    print("1. High School\n2. Some College\n3. Bachelor's\n4. Master's\n5. Doctorate")
-    edu = input("Enter number: ")
-    gpa = input("Enter GPA (0.0 - 4.0): ")
+    while True:
+        print("Education Level:")
+        print("1. High School")
+        print("2. Some College")
+        print("3. Bachelor's")
+        print("4. Master's")
+        print("5. Doctorate")
+        edu = input("Enter number: ")
+        if edu in {"1", "2", "3", "4", "5"}:
+            break
+        else:
+            print("Invalid selection. Please enter 1-5.")
 
-    if edu not in {"1", "2", "3", "4", "5"}:
-        print("Invalid selection.")
-        return
-
-    try:
-        gpa = float(gpa)
-        if not (0 <= gpa <= 4):
-            print("GPA out of range.")
-            return
-    except ValueError:
-        print("Invalid GPA.")
-        return
+    gpa = None
+    while True:
+        gpa_input = input("Enter GPA (0.0 - 4.0): ")
+        try:
+            gpa = float(gpa_input)
+            if 0 <= gpa <= 4:
+                break
+            else:
+                print("GPA must be between 0.0 and 4.0.")
+        except ValueError:
+            print("Invalid GPA. Please enter a valid number.")
 
     base = {1: 8, 2: 10, 3: 12, 4: 14, 5: 16}[int(edu)]
     modifier = 2 if gpa >= 4 else 1 if gpa >= 3.5 else 0 if gpa >= 2.5 else -1 if gpa >= 2.0 else -2
@@ -226,17 +211,9 @@ def calculate_intelligence():
 
 def calculate_wisdom():
     global wisdom_score
-    sleep = input("Deep sleep per night (minutes): ")
-    heart = input("Resting heart rate (BPM): ")
-    outside = input("Time outside per day (minutes): ")
-
-    if sleep.isdigit() and heart.isdigit() and outside.isdigit():
-        sleep = round(float(sleep))
-        heart = round(float(heart))
-        outside = round(float(outside))
-    else:
-        print("Invalid inputs.")
-        return
+    sleep = get_valid_integer("Deep sleep per night (minutes): ")
+    heart = get_valid_integer("Resting heart rate (BPM): ")
+    outside = get_valid_integer("Time outside per day (minutes): ")
 
     wisdom_score = round((sleep / 15) + ((AVERAGE_HEART_RATE - heart) / 5) + (outside / 45))
     wisdom_score = max(1, min(20, wisdom_score))
@@ -244,25 +221,46 @@ def calculate_wisdom():
 
 def calculate_charisma():
     global charisma_score
-    outings = input("Avergae outtings a week: ")
-    interactions = input("Meaningful interactions/day: ")
-    dates = input("Average dates per month: ")
-
-    if outings.isdigit() and interactions.isdigit() and dates.isdigit():
-        outings = int(outings)
-        interactions = int(interactions)
-        dates = int(dates)
-    else:
-        print("Please enter valid whole numbers.")
-        return
+    outings = get_valid_integer("Average outings a week: ")
+    interactions = get_valid_integer("Meaningful interactions/day: ")
+    dates = get_valid_integer("Average dates per month: ")
 
     charisma_score = round((outings * 1.5) + (interactions / 2) + (dates * 3))
     charisma_score = max(1, min(20, charisma_score))
     print(f"Your Charisma Score is: {charisma_score}")
 
+# Helper functions
+
+def get_valid_number(prompt):
+    while True:
+        value = input(prompt)
+        if value.replace('.', '', 1).isdigit():
+            return float(value)
+        else:
+            print("Invalid input. Please enter a valid number.")
+
+def get_valid_integer(prompt):
+    while True:
+        value = input(prompt)
+        if value.isdigit():
+            return int(value)
+        else:
+            print("Invalid input. Please enter a valid whole number.")
+
+def get_valid_mile_time(prompt):
+    while True:
+        mile = input(prompt)
+        try:
+            minutes, seconds = map(int, mile.split(":"))
+            if 0 <= minutes and 0 <= seconds < 60:
+                return minutes + seconds / 60
+            else:
+                print("Minutes must be >= 0 and seconds must be between 0 and 59.")
+        except ValueError:
+            print("Invalid format. Please enter mile time as MM:SS.")
+
 if __name__ == "__main__":
     main()
-
 
 
 
