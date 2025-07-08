@@ -52,34 +52,35 @@ def main():
                 print("Please select option 1 from the main menu to calculate your stats first.")
                 main()
                 return
-            print("\nSelect a stat to change:")
-            print("1. Strength")
-            print("2. Dexterity")
-            print("3. Constitution")
-            print("4. Intelligence")
-            print("5. Wisdom")
-            print("6. Charisma")
-            print("7. Return to Main Menu")
+            while True:
+                print("\nSelect a stat to change:")
+                print("1. Strength")
+                print("2. Dexterity")
+                print("3. Constitution")
+                print("4. Intelligence")
+                print("5. Wisdom")
+                print("6. Charisma")
+                print("7. Return to Main Menu")
 
-            change_stat = input("Enter the number of the stat you would like to change: ")
+                change_stat = input("Enter the number of the stat you would like to change: ")
 
-            if change_stat == "1":
-                calculate_strength()
-            elif change_stat == "2":
-                calculate_dexterity()
-            elif change_stat == "3":
-                calculate_constitution()
-            elif change_stat == "4":
-                calculate_intelligence()
-            elif change_stat == "5":
-                calculate_wisdom()
-            elif change_stat == "6":
-                calculate_charisma()
-            elif change_stat == "7":
-                main()
-                return
-            else:
-                print("Invalid input.")
+                if change_stat == "1":
+                    calculate_strength()
+                elif change_stat == "2":
+                    calculate_dexterity()
+                elif change_stat == "3":
+                    calculate_constitution()
+                elif change_stat == "4":
+                    calculate_intelligence()
+                elif change_stat == "5":
+                    calculate_wisdom()
+                elif change_stat == "6":
+                    calculate_charisma()
+                elif change_stat == "7":
+                    main()
+                    return
+                else:
+                    print("Invalid input.")
             
 
         elif MenuChoice == 4:
