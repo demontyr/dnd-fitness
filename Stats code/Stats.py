@@ -17,7 +17,7 @@ def main():
         print("3. Change Stat")
         print("4. Export Stats")
        # print("5. Run Test")
-        print("6. Exit")
+        print("5. Exit")
 
         MenuChoice = input("Enter the number of the option you would like: ")
 
@@ -52,6 +52,7 @@ def main():
                 print("Please select option 1 from the main menu to calculate your stats first.")
                 main()
                 return
+            
             while True:
                 print("\nSelect a stat to change:")
                 print("1. Strength")
@@ -90,7 +91,7 @@ def main():
         #elif MenuChoice ==5:
          #   test2.run_all_tests()
             
-        elif MenuChoice == 6:
+        elif MenuChoice == 5:
             break
         else:
             print("Invalid selection.")
@@ -293,6 +294,3 @@ def get_stat_mod(stat_score = 0):
     
 if __name__ == "__main__":
     main()
-
-
-
