@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Fitness RPG</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<!-- ================= MAIN MENU ================= -->
+<div id="menu">
+    <h1>Fitness RPG</h1>
+
+    <button id="startBtn" onclick="startGame()">Start</button>
+    <button onclick="loadGame()">Load</button>
+    <button onclick="resetGame()">Reset Save</button>
+</div>
+
+<!-- ================= QUIZ ================= -->
+<div id="quiz" style="display:none;"></div>
+
+<!-- ================= GAME SCREEN ================= -->
+<div id="game" style="display:none;">
+
+    <h1>Fitness RPG</h1>
+
+    <!-- STATUS PANEL -->
+    <div id="status"></div>
+
+    <!-- GAME MENU -->
+    <div class="menu">
+        <button onclick="viewDaily()">Daily Quests</button>
+        <button onclick="viewWeekly()">Weekly Quests</button>
+        <button onclick="viewSelected()">Quest Log</button>
+        <button onclick="randomEncounter()">Encounter</button>
+
+        <button onclick="saveGame()">Save</button>
+        <button onclick="resetGame()">Reset</button>
+    </div>
+
+    <!-- OUTPUT AREA -->
+    <div id="output"></div>
+
+</div>
+
+<!-- ================= SCRIPTS ================= -->
+
+<!-- Core controller (state + routing) -->
+<script src="game.js"></script>
+
+<!-- Character creation / quiz -->
+<script src="quiz.js"></script>
+
+<!-- Quests + encounters system -->
+<script src="quests.js"></script>
+
+</body>
+</html>
